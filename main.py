@@ -17,9 +17,9 @@ def read_input(file_name):
 
 def generate_population(population_dimension, x_interval, y_interval, precision):
     X = []
-    format_string = '{:.' + str(precision) + 'f}'
+    precision = '.' + str(precision) + 'f'
     for _ in range(population_dimension):
-        x = float(format_string.format(np.random.uniform(x_interval, y_interval)))
+        x = float(format(np.random.uniform(x_interval, y_interval), precision))
         X.append(x)
     return X
 
@@ -206,8 +206,7 @@ def print_crossover_participants(output_file, U, B, crossover_probability):
     output_file.write('\nProbabilitatea de incrucisare = ' + str(crossover_probability) + '\n')
     for i in range(len(U)):
         if U[i] < crossover_probability:
-            output_file.write(
-                '{:>2}: {}  u = {:<.12f} < {} => participa\n'.format(i + 1, B[i], U[i], crossover_probability))
+            output_file.write('{:>2}: {}  u = {:<.12f} < {} => participa\n'.format(i + 1, B[i], U[i], crossover_probability))
         else:
             output_file.write('{:>2}: {}  u = {:<.12f}\n'.format(i + 1, B[i], U[i]))
 
@@ -232,12 +231,10 @@ def print_mutation(output_file, mutated, mutation_probability):
         output_file.write(str(i + 1) + '\n')
 
 
-population_size, x_interval, y_interval, a0, a1, a2, precision, crossover_probability, mutation_probability, N = read_input(
-        'input.txt')
+population_size, x_interval, y_interval, a0, a1, a2, precision, crossover_probability, mutation_probability, N = read_input('input.txt')
 X = generate_population(population_size, x_interval, y_interval, precision)
 max_values, mean_values = [], []
 
-# X = [-0.914592, -0.516787, -0.246207, 1.480791, 0.835307, 1.229633, 0.133068, -0.897179, 0.100578, -0.311975, 1.411980, 0.404924, 1.954865, 0.359503, 1.255452, 1.124764, 1.527482, 1.573845, -0.562311, 1.191435]
 length = calculate_number_of_bytes(x_interval, y_interval, precision)
 discretion_step = calculate_discretion_step(x_interval, y_interval, length)
 
@@ -273,14 +270,12 @@ print_population(output_file, X, B, F, population_size - 1)
 U, crossover_participants = generate_crossover_participants(crossover_probability, population_size - 1)
 print_crossover_participants(output_file, U, B, crossover_probability)
 
-apply_crossover(crossover_participants, X, B, F, length, x_interval, discretion_step, precision, a0, a1, a2,
-                    output_file)
+apply_crossover(crossover_participants, X, B, F, length, x_interval, discretion_step, precision, a0, a1, a2, output_file)
 
 output_file.write('\nDupa recombinare:\n')
 print_population(output_file, X, B, F, population_size - 1)
 
-mutated = apply_mutation(X, B, F, mutation_probability, population_size - 1, length, x_interval, discretion_step,
-                             precision, a0, a1, a2)
+mutated = apply_mutation(X, B, F, mutation_probability, population_size - 1, length, x_interval, discretion_step, precision, a0, a1, a2)
 print_mutation(output_file, mutated, mutation_probability)
 output_file.write('\nDupa mutatie:\n')
 print_population(output_file, X, B, F, population_size - 1)
@@ -315,8 +310,7 @@ for i in range(N - 1):
 
     apply_crossover(crossover_participants, X, B, F, length, x_interval, discretion_step, precision, a0, a1, a2)
 
-    apply_mutation(X, B, F, mutation_probability, population_size - 1, length, x_interval, discretion_step,
-                       precision, a0, a1, a2)
+    apply_mutation(X, B, F, mutation_probability, population_size - 1, length, x_interval, discretion_step, precision, a0, a1, a2)
 
     X.append(elite_x)
     B.append(elite_b)
